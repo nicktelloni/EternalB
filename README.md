@@ -13,5 +13,5 @@
 - Guida per editare il .md: https://www.markdownguide.org/basic-syntax
 
 #### Librerie utilizzate:
-- pyfiglet: https://pypi.org/project/pyfiglet/0.7/  http://www.figlet.org/examples.html
+- pyfiglet: https://pypi.org/project/pyfiglet/0.7/ - http://www.figlet.org/examples.html
 - subprocess: https://docs.python.org/3/library/subprocess.html
