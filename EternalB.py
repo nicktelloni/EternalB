@@ -39,5 +39,7 @@ def scan1():
 
 if __name__ == '__main__':
 	intro()
+	print("fine intro")
 	iplist = scan1()
+	print("fine scan1")
 	print(iplist)
