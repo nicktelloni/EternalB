@@ -6,7 +6,7 @@ def intro():
 	subprocess.call(["clear"])
 
 	#variabili
-	result2 = pyfiglet.figlet_format('eternalB', font='larry3d')
+	result2 = pyfiglet.figlet_format("eternalB", font="larry3d")
 
 	#output
 	print(result2)
@@ -14,15 +14,15 @@ def intro():
 
 def scan1():
     #variabili
-	s = 'Nmap scan report for '
-	ipL = list()
+	s = "Nmap scan report for "
+	ipList = list()
 
 	#subprocess
 	p = subprocess.Popen(["sudo","nmap","-sP","192.168.69.0/24"], stdout=subprocess.PIPE).stdout
 	l = p.read().splitlines()
 
 	#decode from byte to string
-	l=[x.decode('utf-8') for x in l]
+	l = [x.decode("utf-8") for x in l]
 
 	#rimuovi primo e ultimo elemento
 	del l[0]
@@ -33,13 +33,39 @@ def scan1():
 		if s in x:
 			l[i] = x.replace(s,'')
 			#print(l[i])
-			ipL.append(l[i])
-	return ipL
+			ipList.append(l[i])
+	return ipList
+
+def scan2(lst):
+	#variabili
+	vulnList = list()
+	
+	for ip in lst:
+		vulnList.append((ip, checkVuln(ip)))
+	print(vulnList)
 
 
-if __name__ == '__main__':
+def checkVuln(ip):
+	#subprocess
+	p = subprocess.Popen(["sudo","nmap","-p", "445", "--script", "smb-vuln-ms17-010", ip], stdout=subprocess.PIPE).stdout
+	t = p.read().splitlines()
+	
+	#decode from byte to string
+	t = [x.decode("utf-8") for x in t]
+	
+	#ciclo check ip
+	for i in t:
+		if "VULNERABLE" in i:
+			return True
+	return False
+
+
+if __name__ == "__main__":
 	intro()
 	print("fine intro")
 	iplist = scan1()
 	print("fine scan1")
-	print(iplist)
+	#print(iplist)
+	scan2(iplist)
+	#print(checkVuln("192.168.69.1"))
+	
