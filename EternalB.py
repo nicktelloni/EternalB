@@ -24,7 +24,7 @@ def scan1():
 	#decode from byte to string
 	l = [x.decode("utf-8") for x in l]
 
-	#rimuovi primo e ultimo elemento
+	#rimuovi primo e ultimo elemento in quanto sono l'indirizzo di rete e l'indirizzo di broadcast
 	del l[0]
 	del l[-1]
 
@@ -44,7 +44,7 @@ def scan2(lst):
 		vulnList.append((ip, checkVuln(ip)))
 	print(vulnList)
 
-
+#vengono controllati gli indirizzi ip in caso abbiano vulnerabilità
 def checkVuln(ip):
 	#subprocess
 	p = subprocess.Popen(["sudo","nmap","-p", "445", "--script", "smb-vuln-ms17-010", ip], stdout=subprocess.PIPE).stdout
