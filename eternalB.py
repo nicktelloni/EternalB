@@ -3,15 +3,8 @@ import subprocess as sp
 import netifaces as ni
 
 
-def intro(): #split clear and figlet into function
-	#subprocess
-	sp.call(["clear"])
-
-	#variabili
-	result2 = pf.figlet_format("eternalB", font="larry3d")
-
-	#output
-	print(result2)
+def intro():
+	cleanAndTitle()
 	print("Welcome on EternalB")
 
 
@@ -72,11 +65,16 @@ def choseTarget(vulnList):
 	return vulnList[int(input("Choose the target: "))]
 	
 
-#def execVuln():
+#def execVuln(target):
 #	shellPrep()
 #
 #
 #
+
+
+def cleanAndTitle():
+	sp.call(["clear"])
+	print(pf.figlet_format("eternalB", font="larry3d"))
 
 
 def getIP():
@@ -120,5 +118,6 @@ if __name__ == "__main__":
 	#print(iplist)
 	#vulnList = scan2(iplist)
 	#print(checkVuln("192.168.69.1"))
-	#execVuln(ipVuln)
+	#target = chooseTarget(vulnList)
+	#execVuln(target)
 	
