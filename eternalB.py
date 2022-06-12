@@ -146,6 +146,6 @@ if __name__ == "__main__":
 	if len(vulnList) == 0:
 		print("Unfortunately there are 0 IPs vulnerable")
 		exit()
-	#target = chooseTarget(vulnList)
+	target = chooseTarget(vulnList)
 	#execVuln(target)
 	
