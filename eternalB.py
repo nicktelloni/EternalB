@@ -127,7 +127,7 @@ def getOS(ip):
 
 
 def shellPrep(targetIp):
-	targetIp="LHOST=192.168.69.99" #da passare
+	targetIp="LHOST=" + targetIp #da passare
 	portx64="LPORT=1234"
 	portx86="LPORT=1234"
 
