@@ -90,7 +90,7 @@ def execVuln(target):
 	if y in ["64", "64bit", "64Bit", "64BIT", "64 bit", "64 Bit", "64 BIT", ""]:
 		shellcode = "shellcode/sc_x64.bin"
 	else if y in ["32", "32bit", "32Bit", "32BIT", "32 bit", "32 Bit", "32 BIT"]:
-		shellcode = "shellcode/sc_x86.bin
+		shellcode = "shellcode/sc_x86.bin"
 	else:
 		print("Please insert a valid option"
 		exit()
