@@ -82,8 +82,8 @@ def execVuln(target):
 		sp.run(["sudo", "chmod", "+x", "eternalblue_exploit7.py"])
 		script = "eternalblue_exploit7.py"
 	else:
-		sp.run(["sudo", "chmod", "+x", "zzz_exploit.py"])
-		script = "zzz_exploit.py"
+		print("Error, os not in list")
+		exit()
 
 	print("Please insert the target os architecture? [64/32]bit")
 	y = input()
