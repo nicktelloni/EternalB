@@ -82,7 +82,6 @@ def execVuln(target):
 		sp.run(["sudo", "chmod", "+x", "eternalblue_exploit7.py"])
 		script = "eternalblue_exploit7.py"
 	else:
-		print(os)
 		print("Error, os not in list")
 		exit()
 
@@ -121,9 +120,9 @@ def getOS(ip):
 	t = [x.decode("utf-8") for x in t]
 	res = ""
 	for i in t:
-		if "Running:" in i[:9]:
+		if "Running:" in i:
 			res = i[9:]
-			print(res)
+			return res
 
 
 
